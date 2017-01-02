@@ -5,7 +5,6 @@
     "lint": "tslint src/**/*.ts",
     "test": "tsc --skipLibCheck && karma start",
     "prepublish": "tsc --skipLibCheck",
-    "postinstall": "typings install",
     "tsc": "tsc --skipLibCheck",
     "typings": "typings"
   },
