@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "tsc --skipLibCheck && karma start",
