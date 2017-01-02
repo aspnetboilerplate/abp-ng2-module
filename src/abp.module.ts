@@ -1,5 +1,7 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule, JsonpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+
 import { AbpSessionService } from './session/abp-session.service';
 import { PermissionCheckerService } from './auth/permission-checker.service';
 import { FeatureCheckerService } from './features/feature-checker.service';
@@ -9,7 +11,6 @@ import { NotifyService } from './notify/notify.service';
 import { MessageService } from './message/message.service';
 import { LogService } from './log/log.service';
 import { AbpMultiTenancyService } from './multi-tenancy/abp-multi-tenancy.service';
-import { HttpModule, JsonpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { AbpHttpConfiguration, AbpHttp } from './abpHttp';
 import { AbpUserConfigurationService } from './abp-user-configuration.service';
 import { TokenService } from './auth/token.service';
