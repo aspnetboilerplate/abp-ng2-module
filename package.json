@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "scripts": {
     "lint": "tslint src/**/*.ts",
-    "test": "tsc && karma start",
+    "test": "tsc --skipLibCheck && karma start",
     "postinstall": "typings install",
-    "prepublish": "tsc",
-    "tsc": "tsc",
+    "prepublish": "tsc --skipLibCheck",
+    "tsc": "tsc --skipLibCheck",
     "typings": "typings"
   },
   "repository": {

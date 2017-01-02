@@ -236,7 +236,7 @@ export class AbpHttp extends Http {
             .catch(error => this.configuration.handleError(error));
     }
 
-    put(url: string, body, options?: RequestOptionsArgs): Observable<Response> {
+    put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         if (!options) { options = {}; }
         this.normalizeRequestOptions(options);
         return super
