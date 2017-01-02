@@ -1,0 +1,47 @@
+{
+  "name": "abp-ng2-module",
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "tslint src/**/*.ts",
+    "test": "tsc && karma start",
+    "postinstall": "typings install",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "typings": "typings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module"
+  },
+  "author": {
+    "name": "Halil İbrahim Kalkan",
+    "email": "hi_kalkan@yahoo.com"
+  },
+  "keywords": [
+    "angular",
+    "angular2"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+    "@angular/core": "^2.4.0",
+    "@angular/platform-browser": "^2.4.0",
+    "@angular/http": "^2.4.0",
+    "abp-web-resources": "^1.2.1"
+  },
+  "devDependencies": {
+    "codelyzer": "^0.0.28",
+    "rxjs": "5.0.0-beta.12",
+    "tslint": "^3.15.1",
+    "typescript": "2.0.2",
+    "typings": "^1.0.4",
+    "zone.js": "0.6.23"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
