@@ -1,5 +1,4 @@
 ﻿import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, JsonpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 
 import { AbpSessionService } from './session/abp-session.service';
@@ -28,7 +27,6 @@ export let ABP_HTTP_PROVIDER = {
 
 @NgModule({
     imports: [
-        BrowserModule,
         HttpModule,
         JsonpModule
     ],
