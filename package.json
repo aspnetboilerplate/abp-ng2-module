@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "0.1.5",
+  "version": "0.2.1",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "tsc --skipLibCheck && karma start",
@@ -28,7 +28,6 @@
   "typings": "./dist/index.d.ts",
   "dependencies": {
     "@angular/core": "^2.4.0",
-    "@angular/platform-browser": "^2.4.0",
     "@angular/http": "^2.4.0",
     "abp-web-resources": "^1.2.1"
   },
