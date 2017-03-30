@@ -161,7 +161,7 @@ export class AbpHttpConfiguration {
         return new Response(newResponse);
     }
 
-    getAbpAjaxResponseOrNull(response: Response): IAjaxResponse {
+    getAbpAjaxResponseOrNull(response: Response): IAjaxResponse | null {
         var contentType = response.headers.get('Content-Type');
         if (!contentType) {
             this._logService.warn('Content-Type is not sent!');
@@ -275,27 +275,27 @@ export class AbpHttp extends Http {
 
     protected addAcceptLanguageHeader(options: RequestOptionsArgs) {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
-        if (cookieLangValue && !options.headers.has('Accept-Language')) {
+        if (cookieLangValue && options.headers && !options.headers.has('Accept-Language')) {
             options.headers.append('Accept-Language', cookieLangValue);
         }
     }
 
     protected addTenantIdHeader(options: RequestOptionsArgs) {
         let cookieTenantIdValue = this._utilsService.getCookieValue('Abp.TenantId');
-        if (cookieTenantIdValue && !options.headers.has('Abp.TenantId')) {
+        if (cookieTenantIdValue && options.headers && !options.headers.has('Abp.TenantId')) {
             options.headers.append('Abp.TenantId', cookieTenantIdValue);
         }
     }
 
     protected addAuthorizationHeaders(options: RequestOptionsArgs): void {
-        let authorizationHeaders = options.headers.getAll('Authorization');
+        let authorizationHeaders = options.headers ? options.headers.getAll('Authorization'): null;
         if (!authorizationHeaders) {
             authorizationHeaders = [];
         }
 
         if (!this.itemExists(authorizationHeaders, (item: string) => item.indexOf('Bearer ') == 0)) {
             let token = this._tokenService.getToken();
-            if (token) {
+            if (options.headers && token) {
                 options.headers.append('Authorization', 'Bearer ' + token);
             }
         }

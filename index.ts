@@ -1,14 +1,6 @@
-export * from './src/abp.module';
-export * from './src/session/abp-session.service';
-export * from './src/auth/permission-checker.service';
-export * from './src/features/feature-checker.service';
-export * from './src/localization/localization.service';
-export * from './src/settings/setting.service';
-export * from './src/notify/notify.service';
-export * from './src/message/message.service';
-export * from './src/log/log.service';
-export * from './src/multi-tenancy/abp-multi-tenancy.service';
-export * from './src/auth/token.service';
-export * from './src/utils/utils.service';
-export * from './src/abpHttp';
-export * from './src/abp-user-configuration.service';
+/**
+ * @module
+ * @description
+ * Entry point for all public APIs of the Angular Module
+ */
+export * from './src/index';

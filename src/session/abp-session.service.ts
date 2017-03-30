@@ -3,19 +3,19 @@
 @Injectable()
 export class AbpSessionService {
 
-    get userId(): number {
+    get userId(): number | undefined {
         return abp.session.userId;
     }
 
-    get tenantId(): number {
+    get tenantId(): number | undefined {
         return abp.session.tenantId;
     }
 
-    get impersonatorUserId(): number {
+    get impersonatorUserId(): number | undefined {
         return abp.session.impersonatorUserId;
     }
 
-    get impersonatorTenantId(): number {
+    get impersonatorTenantId(): number | undefined {
         return abp.session.impersonatorTenantId;
     }
 
