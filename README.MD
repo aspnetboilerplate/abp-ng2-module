@@ -12,13 +12,7 @@ $ npm install abp-ng2-module --save
 To generate all `*.js`, `*.js.map` and `*.d.ts` files:
 
 ```bash
-$ npm run tsc
-```
-
-To lint all `*.ts` files:
-
-```bash
-$ npm run lint
+$ npm run build
 ```
 
 ## License
