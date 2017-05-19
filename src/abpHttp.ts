@@ -269,8 +269,16 @@ export class AbpHttp extends Http {
         }
 
         this.addAuthorizationHeaders(options);
+        this.addAspNetCoreCultureHeader(options);
         this.addAcceptLanguageHeader(options);
         this.addTenantIdHeader(options);
+    }
+
+    protected addAspNetCoreCultureHeader(options: RequestOptionsArgs) {
+        let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
+        if (cookieLangValue && options.headers && !options.headers.has('.AspNetCore.Culture')) {
+            options.headers.append('.AspNetCore.Culture', cookieLangValue);
+        }
     }
 
     protected addAcceptLanguageHeader(options: RequestOptionsArgs) {
