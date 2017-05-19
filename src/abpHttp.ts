@@ -162,6 +162,10 @@ export class AbpHttpConfiguration {
     }
 
     getAbpAjaxResponseOrNull(response: Response): IAjaxResponse | null {
+        if(!response || !response.headers) {
+            return null;
+        }
+
         var contentType = response.headers.get('Content-Type');
         if (!contentType) {
             this._logService.warn('Content-Type is not sent!');
