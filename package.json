@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AspNet Boilerplate Angular Module",
   "main": "dist/bundles/abp-ng2-module.umd.js",
   "module": "dist/index.js",
@@ -14,7 +14,8 @@
   },
   "keywords": [
     "angular",
-    "angular2"
+    "angular2",
+    "aspnetboilerplate"
   ],
   "author": {
     "name": "Halil İbrahim Kalkan",
