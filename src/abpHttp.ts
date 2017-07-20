@@ -272,10 +272,17 @@ export class AbpHttp extends Http {
             options.headers = new Headers();
         }
 
+        this.addXRequestedWithHeader(options);
         this.addAuthorizationHeaders(options);
         this.addAspNetCoreCultureHeader(options);
         this.addAcceptLanguageHeader(options);
         this.addTenantIdHeader(options);
+    }
+
+    protected addXRequestedWithHeader(options: RequestOptionsArgs) {
+        if (options.headers) {
+            options.headers.append('X-Requested-With', 'XMLHttpRequest');
+        }
     }
 
     protected addAspNetCoreCultureHeader(options: RequestOptionsArgs) {
