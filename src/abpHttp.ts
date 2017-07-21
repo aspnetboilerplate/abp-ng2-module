@@ -198,11 +198,11 @@ export class AbpHttpConfiguration {
         var ajaxResponse = this.getAbpAjaxResponseOrNull(error);
         if (ajaxResponse != null) {
             this.handleAbpResponse(error, ajaxResponse);
+            return Observable.throw(ajaxResponse.error);
         } else {
             this.handleNonAbpErrorResponse(error);
+            return Observable.throw('HTTP error: ' + error.status + ', ' + error.statusText);
         }
-
-        return Observable.throw('HTTP error: ' + error.status + ', ' + error.statusText);
     }
 }
 
