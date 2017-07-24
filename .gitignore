@@ -9,6 +9,7 @@ dist/*
 *.js
 *.map
 *.d.ts
+!rollup.config.js
 
 # JetBrains
 .idea
