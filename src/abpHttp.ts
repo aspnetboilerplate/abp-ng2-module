@@ -271,6 +271,10 @@ export class AbpHttp extends Http {
         if (!options.headers) {
             options.headers = new Headers();
         }
+        
+        options.headers.append("Pragma","no-cache");
+        options.headers.append("Cache-Control","no-cache");
+        options.headers.append("If-Modified-Since", "Wed, 21 Oct 2020 07:28:00 GMT");
 
         this.addXRequestedWithHeader(options);
         this.addAuthorizationHeaders(options);
