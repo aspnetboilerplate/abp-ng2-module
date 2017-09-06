@@ -274,8 +274,8 @@ export class AbpHttp extends Http {
         
         options.headers.append("Pragma","no-cache");
         options.headers.append("Cache-Control","no-cache");
-        options.headers.append("If-Modified-Since", "Wed, 21 Oct 2020 07:28:00 GMT");
-
+        options.headers.append("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+        
         this.addXRequestedWithHeader(options);
         this.addAuthorizationHeaders(options);
         this.addAspNetCoreCultureHeader(options);
