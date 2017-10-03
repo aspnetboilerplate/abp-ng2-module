@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "AspNet Boilerplate Angular Module",
   "main": "dist/bundles/abp-ng2-module.umd.js",
   "module": "dist/index.js",
