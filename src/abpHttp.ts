@@ -56,7 +56,7 @@ export class AbpHttpConfiguration {
 
     defaultError = <IErrorInfo>{
         message: 'An error has occurred!',
-        details: 'Error detail not sent by server.'
+        details: 'Error details were not sent by server.'
     };
 
     defaultError401 = <IErrorInfo>{
@@ -71,7 +71,7 @@ export class AbpHttpConfiguration {
 
     defaultError404 = <IErrorInfo>{
         message: 'Resource not found!',
-        details: 'The resource requested could not found on the server.'
+        details: 'The resource requested could not be found on the server.'
     };
 
     logError(error: IErrorInfo): void {
