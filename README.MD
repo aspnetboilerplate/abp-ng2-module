@@ -15,6 +15,24 @@ To generate all `*.js`, `*.js.map` and `*.d.ts` files:
 $ npm run build
 ```
 
+## AbpHttpInterceptor
+
+In order to use AbpHttpInterceptor in your module, first import it into your module like below;
+
+```ts
+import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+```
+
+then, add it to your module providers like below;
+
+```ts
+providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
+    	///other providers
+    ]
+```
+
 ## License
 
 MIT
