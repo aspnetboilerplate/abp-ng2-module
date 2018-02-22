@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "paths": {
       "@angular/core": ["node_modules/@angular/core"],
-      "rxjs/*": ["node_modules/rxjs/*"]
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "@abp/*": ["./*"]
     },
     "rootDir": ".",
     "outDir": "dist",
