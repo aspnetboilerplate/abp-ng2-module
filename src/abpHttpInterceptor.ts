@@ -158,7 +158,7 @@ export class AbpHttpConfiguration {
             if (!ajaxResponse.error) {
                 ajaxResponse.error = this.defaultError;
             }
-            debugger;
+           
             this.logError(ajaxResponse.error);
             this.showError(ajaxResponse.error);
 
