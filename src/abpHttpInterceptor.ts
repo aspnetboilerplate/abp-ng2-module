@@ -139,7 +139,7 @@ export class AbpHttpConfiguration {
 
     handleAbpResponse(response: HttpResponse<any>, ajaxResponse: IAjaxResponse): HttpResponse<any> {
         var newResponse: HttpResponse<any>;
-
+        
         if (ajaxResponse.success) {
             
             newResponse = response.clone({
@@ -236,7 +236,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     
     var interceptObservable = new Subject<HttpEvent<any>>();
     var modifiedRequest = this.normalizeRequestHeaders(request);
-        
+    
     next.handle(modifiedRequest)
         .catch((error: any, caught: Observable<any>) => {
             return this.handleErrorResponse(error, interceptObservable);
@@ -318,13 +318,14 @@ export class AbpHttpInterceptor implements HttpInterceptor {
 
     protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void{
         var self = this;
-        if (event instanceof HttpResponse) {
 
-            if (event.body instanceof Blob && event.body.type === "application/json"){
+        if (event instanceof HttpResponse) {
+            if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0){
                 var clonedResponse = event.clone();
                 
                 self.configuration.blobToText(event.body).subscribe(json => {
                     const responseBody = json == "null" ? {}: JSON.parse(json);
+                    
                     var modifiedResponse = self.configuration.handleResponse(event.clone({
                         body: responseBody
                     }));
