@@ -1,22 +1,11 @@
 ﻿import { Injectable } from '@angular/core';
-import { XHRBackend, Headers, Request, Response, RequestMethod, RequestOptionsArgs, ResponseOptions, ResponseOptionsArgs, ConnectionBackend, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject, of } from 'rxjs';
 import { MessageService } from './message/message.service';
 import { LogService } from './log/log.service';
 import { TokenService } from './auth/token.service';
 import { UtilsService } from './utils/utils.service';
 
 import { HttpClient, HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-import { Subject } from 'rxjs/Subject';
-
 
 export interface IValidationErrorInfo {
 
@@ -238,11 +227,10 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     var modifiedRequest = this.normalizeRequestHeaders(request);
     
     next.handle(modifiedRequest)
-        .catch((error: any, caught: Observable<any>) => {
-            return this.handleErrorResponse(error, interceptObservable);
-        })
         .subscribe((event: HttpEvent<any>) => {
             this.handleSuccessResponse(event, interceptObservable );
+        }, (error: any) => {
+            return this.handleErrorResponse(error, interceptObservable);
         });
 
     return interceptObservable;
@@ -349,7 +337,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         if(!(error.error instanceof Blob)){
             interceptObservable.error(error);
             interceptObservable.complete();
-            return Observable.of({});
+            return of({});
         }
 
         this.configuration.blobToText(error.error).subscribe(json => {

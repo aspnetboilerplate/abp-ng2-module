@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 
 declare var jQuery: any;
+declare var abp: any;
 
 @Injectable()
 export class AbpUserConfigurationService {

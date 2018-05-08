@@ -1,5 +1,4 @@
 ﻿import { NgModule } from '@angular/core';
-import { JsonpModule, XHRBackend, RequestOptions } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AbpSessionService } from './session/abp-session.service';
@@ -18,8 +17,7 @@ import { UtilsService } from './utils/utils.service';
 
 @NgModule({
     imports: [
-        HttpClientModule,
-        JsonpModule
+        HttpClientModule
     ],
 
     declarations: [

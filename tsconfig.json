@@ -17,12 +17,15 @@
     "sourceMap": true,
     "inlineSources": true,
     "target": "es5",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "lib": [
       "es2015", 
       "dom"
     ]
   },
+  "include": [
+    "./index.ts"
+  ],
   "files": [
       "index.ts",
       "./node_modules/abp-web-resources/Abp/Framework/scripts/abp.d.ts"
