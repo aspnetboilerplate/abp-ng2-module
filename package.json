@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@angular/core": "^6.0.0",
     "@angular/common": "^6.0.0",
     "abp-web-resources": "^3.1.0"
