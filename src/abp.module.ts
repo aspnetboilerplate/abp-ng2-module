@@ -1,6 +1,4 @@
 ﻿import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-
 import { AbpSessionService } from './session/abp-session.service';
 import { PermissionCheckerService } from './auth/permission-checker.service';
 import { FeatureCheckerService } from './features/feature-checker.service';
@@ -16,10 +14,6 @@ import { TokenService } from './auth/token.service';
 import { UtilsService } from './utils/utils.service';
 
 @NgModule({
-    imports: [
-        HttpClientModule
-    ],
-
     declarations: [
     ],
 
