@@ -33,9 +33,9 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abp-web-resources@^3.1.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-3.7.0.tgz#eaf35870765421c6fd989b008e2d0eb855d3d266"
+abp-web-resources@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-3.8.0.tgz#9927c0822d304b849ded7d773799d0e40ade6be5"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"

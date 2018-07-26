@@ -26,7 +26,7 @@ export class MessageService {
         if (typeof titleOrCallBack == 'string') {
             return abp.message.confirm(message, titleOrCallBack as string, callback, isHtml);
         } else {
-            return abp.message.confirm(message, titleOrCallBack as ((result: boolean) => void), isHtml);
+            return abp.message.confirm(message, undefined, titleOrCallBack as ((result: boolean) => void), isHtml);
         }
     }
 
