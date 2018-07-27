@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "AspNet Boilerplate Angular Module",
   "main": "dist/bundles/abp-ng2-module.umd.js",
   "module": "dist/index.js",
@@ -33,12 +33,12 @@
   "peerDependencies": {
     "@angular/core": "^6.0.0",
     "@angular/common": "^6.0.0",
-    "abp-web-resources": "^3.8.0"
+    "abp-web-resources": "^3.8.1"
   },
   "devDependencies": {
     "@angular/core": "^6.0.0",
     "@angular/common": "^6.0.0",
-    "abp-web-resources": "^3.8.0",
+    "abp-web-resources": "^3.8.1",
     "@angular/compiler": "^6.0.0",
     "@angular/compiler-cli": "^6.0.0",
     "copyfiles": "^1.0.0",
