@@ -344,6 +344,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
             const errorBody = (json == "" || json == "null") ? {}: JSON.parse(json);
             const errorResponse = new HttpResponse({
                 headers: error.headers,
+                status: error.status,
                 body: errorBody
             });
 
