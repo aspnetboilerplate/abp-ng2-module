@@ -128,9 +128,9 @@ export class AbpHttpConfiguration {
 
     handleAbpResponse(response: HttpResponse<any>, ajaxResponse: IAjaxResponse): HttpResponse<any> {
         var newResponse: HttpResponse<any>;
-
+        
         if (ajaxResponse.success) {
-
+            
             newResponse = response.clone({
                 body: ajaxResponse.result
             });
@@ -160,7 +160,7 @@ export class AbpHttpConfiguration {
     }
 
     getAbpAjaxResponseOrNull(response: HttpResponse<any>): IAjaxResponse | null {
-        if (!response || !response.headers) {
+        if(!response || !response.headers) {
             return null;
         }
 
@@ -174,7 +174,7 @@ export class AbpHttpConfiguration {
             this._logService.warn('Content-Type is not application/json: ' + contentType);
             return null;
         }
-
+        
         var responseObj = JSON.parse(JSON.stringify(response.body));
         if (!responseObj.__abp) {
             return null;
@@ -198,12 +198,12 @@ export class AbpHttpConfiguration {
                 observer.next("");
                 observer.complete();
             } else {
-                let reader = new FileReader();
-                reader.onload = function () {
+                let reader = new FileReader(); 
+                reader.onload = function() { 
                     observer.next(this.result);
                     observer.complete();
                 }
-                reader.readAsText(blob);
+                reader.readAsText(blob); 
             }
         });
     }
@@ -211,7 +211,7 @@ export class AbpHttpConfiguration {
 
 @Injectable()
 export class AbpHttpInterceptor implements HttpInterceptor {
-
+  
     protected configuration: AbpHttpConfiguration;
     private _tokenService: TokenService = new TokenService();
     private _utilsService: UtilsService = new UtilsService();
@@ -221,27 +221,27 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         this.configuration = configuration;
     }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
+    var interceptObservable = new Subject<HttpEvent<any>>();
+    var modifiedRequest = this.normalizeRequestHeaders(request);
+    
+    next.handle(modifiedRequest)
+        .subscribe((event: HttpEvent<any>) => {
+            this.handleSuccessResponse(event, interceptObservable );
+        }, (error: any) => {
+            return this.handleErrorResponse(error, interceptObservable);
+        });
 
-        var interceptObservable = new Subject<HttpEvent<any>>();
-        var modifiedRequest = this.normalizeRequestHeaders(request);
+    return interceptObservable;
+  }
 
-        next.handle(modifiedRequest)
-            .subscribe((event: HttpEvent<any>) => {
-                this.handleSuccessResponse(event, interceptObservable);
-            }, (error: any) => {
-                return this.handleErrorResponse(error, interceptObservable);
-            });
-
-        return interceptObservable;
-    }
-
-    protected normalizeRequestHeaders(request: HttpRequest<any>): HttpRequest<any> {
+  protected normalizeRequestHeaders(request: HttpRequest<any>):HttpRequest<any> {
         var modifiedHeaders = new HttpHeaders();
-        modifiedHeaders = request.headers.set("Pragma", "no-cache")
-            .set("Cache-Control", "no-cache")
-            .set("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
-
+        modifiedHeaders = request.headers.set("Pragma","no-cache")
+                                            .set("Cache-Control","no-cache")
+                                            .set("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+        
         modifiedHeaders = this.addXRequestedWithHeader(modifiedHeaders);
         modifiedHeaders = this.addAuthorizationHeaders(modifiedHeaders);
         modifiedHeaders = this.addAspNetCoreCultureHeader(modifiedHeaders);
@@ -253,7 +253,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         });
     }
 
-    protected addXRequestedWithHeader(headers: HttpHeaders): HttpHeaders {
+    protected addXRequestedWithHeader(headers:HttpHeaders):HttpHeaders {
         if (headers) {
             headers = headers.set('X-Requested-With', 'XMLHttpRequest');
         }
@@ -261,7 +261,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAspNetCoreCultureHeader(headers: HttpHeaders): HttpHeaders {
+    protected addAspNetCoreCultureHeader(headers:HttpHeaders):HttpHeaders {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
         if (cookieLangValue && headers && !headers.has('.AspNetCore.Culture')) {
             headers = headers.set('.AspNetCore.Culture', cookieLangValue);
@@ -270,7 +270,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAcceptLanguageHeader(headers: HttpHeaders): HttpHeaders {
+    protected addAcceptLanguageHeader(headers:HttpHeaders):HttpHeaders {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
         if (cookieLangValue && headers && !headers.has('Accept-Language')) {
             headers = headers.set('Accept-Language', cookieLangValue);
@@ -279,7 +279,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addTenantIdHeader(headers: HttpHeaders): HttpHeaders {
+    protected addTenantIdHeader(headers:HttpHeaders):HttpHeaders {
         let cookieTenantIdValue = this._utilsService.getCookieValue('Abp.TenantId');
         if (cookieTenantIdValue && headers && !headers.has('Abp.TenantId')) {
             headers = headers.set('Abp.TenantId', cookieTenantIdValue);
@@ -288,8 +288,8 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAuthorizationHeaders(headers: HttpHeaders): HttpHeaders {
-        let authorizationHeaders = headers ? headers.getAll('Authorization') : null;
+    protected addAuthorizationHeaders(headers:HttpHeaders): HttpHeaders {
+        let authorizationHeaders = headers ? headers.getAll('Authorization'): null;
         if (!authorizationHeaders) {
             authorizationHeaders = [];
         }
@@ -298,8 +298,10 @@ export class AbpHttpInterceptor implements HttpInterceptor {
             let token = this._tokenService.getToken();
             if (token === null) {
                 this._tokenService.clearToken();
+                return headers;
             }
-            if (headers && token && token !== null) {
+
+            if (headers && token) {
                 headers = headers.set('Authorization', 'Bearer ' + token);
             }
         }
@@ -307,22 +309,22 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void {
+    protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void{
         var self = this;
 
         if (event instanceof HttpResponse) {
-            if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0) {
+            if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0){
                 var clonedResponse = event.clone();
-
+                
                 self.configuration.blobToText(event.body).subscribe(json => {
-                    const responseBody = json == "null" ? {} : JSON.parse(json);
-
+                    const responseBody = json == "null" ? {}: JSON.parse(json);
+                    
                     var modifiedResponse = self.configuration.handleResponse(event.clone({
                         body: responseBody
                     }));
-
+                    
                     interceptObservable.next(modifiedResponse.clone({
-                        body: new Blob([JSON.stringify(modifiedResponse.body)], { type: 'application/json' })
+                        body: new Blob([JSON.stringify(modifiedResponse.body)], {type : 'application/json'})
                     }));
 
                     interceptObservable.complete();
@@ -337,21 +339,21 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     protected handleErrorResponse(error: any, interceptObservable: Subject<HttpEvent<any>>): Observable<any> {
         var errorObservable = new Subject<any>();
 
-        if (!(error.error instanceof Blob)) {
+        if(!(error.error instanceof Blob)){
             interceptObservable.error(error);
             interceptObservable.complete();
             return of({});
         }
 
         this.configuration.blobToText(error.error).subscribe(json => {
-            const errorBody = (json == "" || json == "null") ? {} : JSON.parse(json);
+            const errorBody = (json == "" || json == "null") ? {}: JSON.parse(json);
             const errorResponse = new HttpResponse({
                 headers: error.headers,
                 body: errorBody
             });
 
             var ajaxResponse = this.configuration.getAbpAjaxResponseOrNull(errorResponse);
-
+            
             if (ajaxResponse != null) {
                 this.configuration.handleAbpResponse(errorResponse, ajaxResponse);
             } else {
@@ -359,13 +361,13 @@ export class AbpHttpInterceptor implements HttpInterceptor {
             }
 
             errorObservable.complete();
-
+            
             //prettify error object.
             error.error = errorBody;
             interceptObservable.error(error);
             interceptObservable.complete();
         });
-
+        
         return errorObservable;
     }
 
