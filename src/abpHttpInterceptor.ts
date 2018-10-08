@@ -296,6 +296,11 @@ export class AbpHttpInterceptor implements HttpInterceptor {
 
         if (!this.itemExists(authorizationHeaders, (item: string) => item.indexOf('Bearer ') == 0)) {
             let token = this._tokenService.getToken();
+            if (token === null) {
+                this._tokenService.clearToken();
+                return headers;
+            }
+
             if (headers && token) {
                 headers = headers.set('Authorization', 'Bearer ' + token);
             }
