@@ -358,8 +358,6 @@ export class AbpHttpInterceptor implements HttpInterceptor {
 
             errorObservable.complete();
             
-            //prettify error object.
-            error.error = errorBody;
             interceptObservable.error(error);
             interceptObservable.complete();
         });
