@@ -328,6 +328,8 @@ export class AbpHttpInterceptor implements HttpInterceptor {
                 interceptObservable.next(event);
                 interceptObservable.complete();
             }
+        } else {
+            interceptObservable.next(event);
         }
     }
 
