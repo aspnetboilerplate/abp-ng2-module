@@ -17,9 +17,10 @@ $ npm run build
 
 ## AbpHttpInterceptor
 
-In order to use AbpHttpInterceptor in your module, first import it into your module like below;
+In order to use AbpHttpInterceptor in your module, first import it and AbpModule into your module like below;
 
 ```ts
+import { AbpModule } from '@abp/abp.module';
 import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 ```
@@ -27,10 +28,14 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 then, add it to your module providers like below;
 
 ```ts
+imports: [
+    ///other imports
+    AbpModule
+],
 providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
-    	///other providers
-    ]
+    ///other providers
+    { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
+]
 ```
 
 ## License
