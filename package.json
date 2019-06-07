@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "3.2.5",
+  "version": "4.0.0",
   "description": "AspNet Boilerplate Angular Module",
   "main": "dist/bundles/abp-ng2-module.umd.js",
   "module": "dist/index.js",
@@ -31,22 +31,22 @@
     "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
   },
   "peerDependencies": {
-    "@angular/core": "^7.1.4",
-    "@angular/common": "^7.1.4",
+	"@angular/core": "^8.0.0",
+    "@angular/common": "^8.0.0",
     "abp-web-resources": "^3.8.4"
   },
   "devDependencies": {
-    "@angular/core": "^7.1.4",
-    "@angular/common": "^7.1.4",
+    "@angular/core": "^8.0.0",
+    "@angular/common": "^8.0.0",
     "abp-web-resources": "^3.8.4",
-    "@angular/compiler": "^7.1.4",
-    "@angular/compiler-cli": "^7.1.4",
+    "@angular/compiler": "^8.0.0",
+    "@angular/compiler-cli": "^8.0.0",
     "copyfiles": "^2.1.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.68.1",
-    "typescript": "3.1.1",
+    "typescript": "3.4.5",
     "uglify-js": "^3.4.9",
-    "rxjs": "^6.3.3",
-    "zone.js": "^0.8.26"
+    "rxjs": "^6.5.2",
+    "zone.js": "^0.9.1"
   }
 }
