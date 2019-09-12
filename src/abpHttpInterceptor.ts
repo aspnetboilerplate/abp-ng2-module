@@ -280,9 +280,9 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     }
 
     protected addTenantIdHeader(headers:HttpHeaders):HttpHeaders {
-        let cookieTenantIdValue = this._utilsService.getCookieValue('Abp.TenantId');
-        if (cookieTenantIdValue && headers && !headers.has('Abp.TenantId')) {
-            headers = headers.set('Abp.TenantId', cookieTenantIdValue);
+        let cookieTenantIdValue = this._utilsService.getCookieValue(abp.multiTenancy.tenantIdCookieName);
+        if (cookieTenantIdValue && headers && !headers.has(abp.multiTenancy.tenantIdCookieName)) {
+            headers = headers.set(abp.multiTenancy.tenantIdCookieName, cookieTenantIdValue);
         }
 
         return headers;
