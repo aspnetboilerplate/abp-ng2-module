@@ -19,4 +19,20 @@ export class TokenService {
         abp.auth.setToken(authToken, expireDate);
     }
 
+    //refresh token
+    getRefreshToken(): string {
+        return abp.auth.getRefreshToken();
+    }
+
+    getRefreshTokenCookieName(): string {
+        return abp.auth.refreshTokenCookieName;
+    }
+
+    clearRefreshToken(): void {
+        abp.auth.clearRefreshToken();
+    }
+
+    setRefreshToken(refreshToken: string, expireDate?: Date): void {
+        abp.auth.setRefreshToken(refreshToken, expireDate);
+    }
 }
