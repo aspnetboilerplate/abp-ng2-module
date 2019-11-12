@@ -234,7 +234,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         var interceptObservable = new Subject<HttpEvent<any>>();
-        var modifiedRequest = this.normalizeRequestHeaders(request); 
+        var modifiedRequest = this.normalizeRequestHeaders(request);
         next.handle(modifiedRequest)
             .pipe(
                 catchError(error => {
@@ -420,7 +420,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
             } else {
                 this.configuration.handleNonAbpErrorResponse(errorResponse);
             }
-
+            
             errorObservable.complete();
 
             interceptObservable.error(error);
