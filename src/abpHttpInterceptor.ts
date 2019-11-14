@@ -290,7 +290,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
                 }));
         } else {
             return this.refreshTokenSubject.pipe(
-                filter(token => token != null),
+                filter(authResult => authResult != null),
                 take(1),
                 switchMap(authResult => {
                     let modifiedRequest = this.normalizeRequestHeaders(request);
