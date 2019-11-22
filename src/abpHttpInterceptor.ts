@@ -257,14 +257,10 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     }
 
     protected tryGetRefreshTokenService(): Observable<boolean> {
-        try {
-            var _refreshTokenService = this._injector.get(RefreshTokenService);
+        var _refreshTokenService = this._injector.get(RefreshTokenService, null);
 
-            if (_refreshTokenService) {
-                return _refreshTokenService.tryAuthWithRefreshToken();
-            }
-        } catch (error) {
-            return of(false);
+        if (_refreshTokenService) {
+            return _refreshTokenService.tryAuthWithRefreshToken();
         }
         return of(false);
     }
