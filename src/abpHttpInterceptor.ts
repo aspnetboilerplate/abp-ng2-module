@@ -237,7 +237,6 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return next.handle(modifiedRequest)
             .pipe(
                 catchError(error => {
-                    debugger;
                     if (error instanceof HttpErrorResponse && error.status === 401) {
                         return this.tryAuthWithRefreshToken(request, next, error);
                     } else {
@@ -245,7 +244,6 @@ export class AbpHttpInterceptor implements HttpInterceptor {
                     }
                 }),
                 switchMap((event) => {
-                    debugger;
                     return this.handleSuccessResponse(event);
                 })
             );
@@ -280,7 +278,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
                         let modifiedRequest = this.normalizeRequestHeaders(request);
                         return next.handle(modifiedRequest);
                     } else {
-                        return throwError(error);
+                        return this.handleErrorResponse(error);
                     }
                 }));
         } else {
