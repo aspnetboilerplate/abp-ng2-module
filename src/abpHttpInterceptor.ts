@@ -5,8 +5,9 @@ import { LogService } from './log/log.service';
 import { TokenService } from './auth/token.service';
 import { UtilsService } from './utils/utils.service';
 import { HttpClient, HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { switchMap, filter, take, catchError } from 'rxjs/operators';
+import { switchMap, filter, take, catchError, tap, map } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+declare const abp: any;
 
 export interface IValidationErrorInfo {
 
@@ -232,33 +233,25 @@ export class AbpHttpInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        var interceptObservable = new Subject<HttpEvent<any>>();
         var modifiedRequest = this.normalizeRequestHeaders(request);
-        next.handle(modifiedRequest)
+        return next.handle(modifiedRequest)
             .pipe(
                 catchError(error => {
                     if (error instanceof HttpErrorResponse && error.status === 401) {
                         return this.tryAuthWithRefreshToken(request, next, error);
                     } else {
-                        return throwError(error);
+                        return this.handleErrorResponse(error);
                     }
+                }),
+                switchMap((event) => {
+                    return this.handleSuccessResponse(event);
                 })
-            ).subscribe(
-                (event: HttpEvent<any>) => {
-                    this.handleSuccessResponse(event, interceptObservable);
-                },
-                (error: any) => {
-                    return this.handleErrorResponse(error, interceptObservable);
-                }
             );
-
-        return interceptObservable;
     }
 
     protected tryGetRefreshTokenService(): Observable<boolean> {
         var _refreshTokenService = this._injector.get(RefreshTokenService, null);
-
+        
         if (_refreshTokenService) {
             return _refreshTokenService.tryAuthWithRefreshToken();
         }
@@ -281,7 +274,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
                         let modifiedRequest = this.normalizeRequestHeaders(request);
                         return next.handle(modifiedRequest);
                     } else {
-                        return throwError(error);
+                        return this.handleErrorResponse(error);
                     }
                 }));
         } else {
@@ -363,67 +356,55 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void {
+    protected handleSuccessResponse(event: HttpEvent<any>): Observable<HttpEvent<any>> {
         var self = this;
 
         if (event instanceof HttpResponse) {
             if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0) {
-                var clonedResponse = event.clone();
+                return self.configuration.blobToText(event.body).pipe(
+                    map(
+                        json => {
+                            const responseBody = json == "null" ? {} : JSON.parse(json);
 
-                self.configuration.blobToText(event.body).subscribe(json => {
-                    const responseBody = json == "null" ? {} : JSON.parse(json);
+                            var modifiedResponse = self.configuration.handleResponse(event.clone({
+                                body: responseBody
+                            }));
 
-                    var modifiedResponse = self.configuration.handleResponse(event.clone({
-                        body: responseBody
-                    }));
-
-                    interceptObservable.next(modifiedResponse.clone({
-                        body: new Blob([JSON.stringify(modifiedResponse.body)], { type: 'application/json' })
-                    }));
-
-                    interceptObservable.complete();
-                });
-            } else {
-                interceptObservable.next(event);
-                interceptObservable.complete();
+                            return modifiedResponse.clone({
+                                body: new Blob([JSON.stringify(modifiedResponse.body)], { type: 'application/json' })
+                            });
+                        })
+                );
             }
-        } else {
-            interceptObservable.next(event);
         }
+        return of(event);
     }
 
-    protected handleErrorResponse(error: any, interceptObservable: Subject<HttpEvent<any>>): Observable<any> {
-        var errorObservable = new Subject<any>();
-
+    protected handleErrorResponse(error: any): Observable<never> {
         if (!(error.error instanceof Blob)) {
-            interceptObservable.error(error);
-            interceptObservable.complete();
-            return of({});
+            return throwError(error);
         }
 
-        this.configuration.blobToText(error.error).subscribe(json => {
-            const errorBody = (json == "" || json == "null") ? {} : JSON.parse(json);
-            const errorResponse = new HttpResponse({
-                headers: error.headers,
-                status: error.status,
-                body: errorBody
-            });
+        return this.configuration.blobToText(error.error).pipe(
+            switchMap((json) => {
+                const errorBody = (json == "" || json == "null") ? {} : JSON.parse(json);
+                const errorResponse = new HttpResponse({
+                    headers: error.headers,
+                    status: error.status,
+                    body: errorBody
+                });
 
-            var ajaxResponse = this.configuration.getAbpAjaxResponseOrNull(errorResponse);
+                var ajaxResponse = this.configuration.getAbpAjaxResponseOrNull(errorResponse);
 
-            if (ajaxResponse != null) {
-                this.configuration.handleAbpResponse(errorResponse, ajaxResponse);
-            } else {
-                this.configuration.handleNonAbpErrorResponse(errorResponse);
-            }
-            
-            errorObservable.complete();
+                if (ajaxResponse != null) {
+                    this.configuration.handleAbpResponse(errorResponse, ajaxResponse);
+                } else {
+                    this.configuration.handleNonAbpErrorResponse(errorResponse);
+                }
 
-            interceptObservable.error(error);
-            interceptObservable.complete();
-        });
-
-        return errorObservable;
+                return throwError(error);
+            })
+        );
     }
 
     private itemExists<T>(items: T[], predicate: (item: T) => boolean): boolean {
