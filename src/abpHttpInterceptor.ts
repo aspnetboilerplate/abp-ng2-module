@@ -1,11 +1,13 @@
-﻿import { Injectable } from '@angular/core';
-import { Observable, Subject, of } from 'rxjs';
+﻿import { Injectable, Injector } from '@angular/core';
+import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
 import { MessageService } from './message/message.service';
 import { LogService } from './log/log.service';
 import { TokenService } from './auth/token.service';
 import { UtilsService } from './utils/utils.service';
-
 import { HttpClient, HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { switchMap, filter, take, catchError, tap, map } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
+declare const abp: any;
 
 export interface IValidationErrorInfo {
 
@@ -41,6 +43,14 @@ export interface IAjaxResponse {
 
     __abp: boolean;
 
+}
+
+@Injectable()
+export abstract class RefreshTokenService {
+    /**
+     * Try to authenticate with refresh token and return if auth succeed
+     */
+    abstract tryAuthWithRefreshToken(): Observable<boolean>;
 }
 
 @Injectable()
@@ -128,9 +138,9 @@ export class AbpHttpConfiguration {
 
     handleAbpResponse(response: HttpResponse<any>, ajaxResponse: IAjaxResponse): HttpResponse<any> {
         var newResponse: HttpResponse<any>;
-        
+
         if (ajaxResponse.success) {
-            
+
             newResponse = response.clone({
                 body: ajaxResponse.result
             });
@@ -160,7 +170,7 @@ export class AbpHttpConfiguration {
     }
 
     getAbpAjaxResponseOrNull(response: HttpResponse<any>): IAjaxResponse | null {
-        if(!response || !response.headers) {
+        if (!response || !response.headers) {
             return null;
         }
 
@@ -174,7 +184,7 @@ export class AbpHttpConfiguration {
             this._logService.warn('Content-Type is not application/json: ' + contentType);
             return null;
         }
-        
+
         var responseObj = JSON.parse(JSON.stringify(response.body));
         if (!responseObj.__abp) {
             return null;
@@ -198,12 +208,12 @@ export class AbpHttpConfiguration {
                 observer.next("");
                 observer.complete();
             } else {
-                let reader = new FileReader(); 
-                reader.onload = function() { 
+                let reader = new FileReader();
+                reader.onload = function () {
                     observer.next(this.result);
                     observer.complete();
                 }
-                reader.readAsText(blob); 
+                reader.readAsText(blob);
             }
         });
     }
@@ -211,37 +221,79 @@ export class AbpHttpConfiguration {
 
 @Injectable()
 export class AbpHttpInterceptor implements HttpInterceptor {
-  
+
     protected configuration: AbpHttpConfiguration;
     private _tokenService: TokenService = new TokenService();
     private _utilsService: UtilsService = new UtilsService();
     private _logService: LogService = new LogService();
 
-    constructor(configuration: AbpHttpConfiguration) {
+    constructor(configuration: AbpHttpConfiguration,
+        private _injector: Injector) {
         this.configuration = configuration;
     }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    var interceptObservable = new Subject<HttpEvent<any>>();
-    var modifiedRequest = this.normalizeRequestHeaders(request);
-    
-    next.handle(modifiedRequest)
-        .subscribe((event: HttpEvent<any>) => {
-            this.handleSuccessResponse(event, interceptObservable );
-        }, (error: any) => {
-            return this.handleErrorResponse(error, interceptObservable);
-        });
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        var modifiedRequest = this.normalizeRequestHeaders(request);
+        return next.handle(modifiedRequest)
+            .pipe(
+                catchError(error => {
+                    if (error instanceof HttpErrorResponse && error.status === 401) {
+                        return this.tryAuthWithRefreshToken(request, next, error);
+                    } else {
+                        return this.handleErrorResponse(error);
+                    }
+                }),
+                switchMap((event) => {
+                    return this.handleSuccessResponse(event);
+                })
+            );
+    }
 
-    return interceptObservable;
-  }
-
-  protected normalizeRequestHeaders(request: HttpRequest<any>):HttpRequest<any> {
-        var modifiedHeaders = new HttpHeaders();
-        modifiedHeaders = request.headers.set("Pragma","no-cache")
-                                            .set("Cache-Control","no-cache")
-                                            .set("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+    protected tryGetRefreshTokenService(): Observable<boolean> {
+        var _refreshTokenService = this._injector.get(RefreshTokenService, null);
         
+        if (_refreshTokenService) {
+            return _refreshTokenService.tryAuthWithRefreshToken();
+        }
+        return of(false);
+    }
+
+    private isRefreshing = false;
+    private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+    private tryAuthWithRefreshToken(request: HttpRequest<any>, next: HttpHandler, error: any) {
+        if (!this.isRefreshing) {
+            this.isRefreshing = true;
+            this.refreshTokenSubject.next(null);
+
+            return this.tryGetRefreshTokenService().pipe(
+                switchMap((authResult: boolean) => {
+                    this.isRefreshing = false;
+                    if (authResult) {
+                        this.refreshTokenSubject.next(authResult);
+                        let modifiedRequest = this.normalizeRequestHeaders(request);
+                        return next.handle(modifiedRequest);
+                    } else {
+                        return this.handleErrorResponse(error);
+                    }
+                }));
+        } else {
+            return this.refreshTokenSubject.pipe(
+                filter(authResult => authResult != null),
+                take(1),
+                switchMap(authResult => {
+                    let modifiedRequest = this.normalizeRequestHeaders(request);
+                    return next.handle(modifiedRequest);
+                }));
+        }
+    }
+
+    protected normalizeRequestHeaders(request: HttpRequest<any>): HttpRequest<any> {
+        var modifiedHeaders = new HttpHeaders();
+        modifiedHeaders = request.headers.set("Pragma", "no-cache")
+            .set("Cache-Control", "no-cache")
+            .set("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+
         modifiedHeaders = this.addXRequestedWithHeader(modifiedHeaders);
         modifiedHeaders = this.addAuthorizationHeaders(modifiedHeaders);
         modifiedHeaders = this.addAspNetCoreCultureHeader(modifiedHeaders);
@@ -253,7 +305,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         });
     }
 
-    protected addXRequestedWithHeader(headers:HttpHeaders):HttpHeaders {
+    protected addXRequestedWithHeader(headers: HttpHeaders): HttpHeaders {
         if (headers) {
             headers = headers.set('X-Requested-With', 'XMLHttpRequest');
         }
@@ -261,7 +313,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAspNetCoreCultureHeader(headers:HttpHeaders):HttpHeaders {
+    protected addAspNetCoreCultureHeader(headers: HttpHeaders): HttpHeaders {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
         if (cookieLangValue && headers && !headers.has('.AspNetCore.Culture')) {
             headers = headers.set('.AspNetCore.Culture', cookieLangValue);
@@ -270,7 +322,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAcceptLanguageHeader(headers:HttpHeaders):HttpHeaders {
+    protected addAcceptLanguageHeader(headers: HttpHeaders): HttpHeaders {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
         if (cookieLangValue && headers && !headers.has('Accept-Language')) {
             headers = headers.set('Accept-Language', cookieLangValue);
@@ -279,7 +331,7 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addTenantIdHeader(headers:HttpHeaders):HttpHeaders {
+    protected addTenantIdHeader(headers: HttpHeaders): HttpHeaders {
         let cookieTenantIdValue = this._utilsService.getCookieValue(abp.multiTenancy.tenantIdCookieName);
         if (cookieTenantIdValue && headers && !headers.has(abp.multiTenancy.tenantIdCookieName)) {
             headers = headers.set(abp.multiTenancy.tenantIdCookieName, cookieTenantIdValue);
@@ -288,8 +340,8 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected addAuthorizationHeaders(headers:HttpHeaders): HttpHeaders {
-        let authorizationHeaders = headers ? headers.getAll('Authorization'): null;
+    protected addAuthorizationHeaders(headers: HttpHeaders): HttpHeaders {
+        let authorizationHeaders = headers ? headers.getAll('Authorization') : null;
         if (!authorizationHeaders) {
             authorizationHeaders = [];
         }
@@ -304,67 +356,55 @@ export class AbpHttpInterceptor implements HttpInterceptor {
         return headers;
     }
 
-    protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void{
+    protected handleSuccessResponse(event: HttpEvent<any>): Observable<HttpEvent<any>> {
         var self = this;
 
         if (event instanceof HttpResponse) {
-            if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0){
-                var clonedResponse = event.clone();
-                
-                self.configuration.blobToText(event.body).subscribe(json => {
-                    const responseBody = json == "null" ? {}: JSON.parse(json);
-                    
-                    var modifiedResponse = self.configuration.handleResponse(event.clone({
-                        body: responseBody
-                    }));
-                    
-                    interceptObservable.next(modifiedResponse.clone({
-                        body: new Blob([JSON.stringify(modifiedResponse.body)], {type : 'application/json'})
-                    }));
+            if (event.body instanceof Blob && event.body.type && event.body.type.indexOf("application/json") >= 0) {
+                return self.configuration.blobToText(event.body).pipe(
+                    map(
+                        json => {
+                            const responseBody = json == "null" ? {} : JSON.parse(json);
 
-                    interceptObservable.complete();
-                });
-            } else {
-                interceptObservable.next(event);
-                interceptObservable.complete();
+                            var modifiedResponse = self.configuration.handleResponse(event.clone({
+                                body: responseBody
+                            }));
+
+                            return modifiedResponse.clone({
+                                body: new Blob([JSON.stringify(modifiedResponse.body)], { type: 'application/json' })
+                            });
+                        })
+                );
             }
-        } else {
-            interceptObservable.next(event);
         }
+        return of(event);
     }
 
-    protected handleErrorResponse(error: any, interceptObservable: Subject<HttpEvent<any>>): Observable<any> {
-        var errorObservable = new Subject<any>();
-
-        if(!(error.error instanceof Blob)){
-            interceptObservable.error(error);
-            interceptObservable.complete();
-            return of({});
+    protected handleErrorResponse(error: any): Observable<never> {
+        if (!(error.error instanceof Blob)) {
+            return throwError(error);
         }
 
-        this.configuration.blobToText(error.error).subscribe(json => {
-            const errorBody = (json == "" || json == "null") ? {}: JSON.parse(json);
-            const errorResponse = new HttpResponse({
-                headers: error.headers,
-                status: error.status,
-                body: errorBody
-            });
+        return this.configuration.blobToText(error.error).pipe(
+            switchMap((json) => {
+                const errorBody = (json == "" || json == "null") ? {} : JSON.parse(json);
+                const errorResponse = new HttpResponse({
+                    headers: error.headers,
+                    status: error.status,
+                    body: errorBody
+                });
 
-            var ajaxResponse = this.configuration.getAbpAjaxResponseOrNull(errorResponse);
-            
-            if (ajaxResponse != null) {
-                this.configuration.handleAbpResponse(errorResponse, ajaxResponse);
-            } else {
-                this.configuration.handleNonAbpErrorResponse(errorResponse);
-            }
+                var ajaxResponse = this.configuration.getAbpAjaxResponseOrNull(errorResponse);
 
-            errorObservable.complete();
-            
-            interceptObservable.error(error);
-            interceptObservable.complete();
-        });
-        
-        return errorObservable;
+                if (ajaxResponse != null) {
+                    this.configuration.handleAbpResponse(errorResponse, ajaxResponse);
+                } else {
+                    this.configuration.handleNonAbpErrorResponse(errorResponse);
+                }
+
+                return throwError(error);
+            })
+        );
     }
 
     private itemExists<T>(items: T[], predicate: (item: T) => boolean): boolean {
