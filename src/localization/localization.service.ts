@@ -15,7 +15,7 @@ export class LocalizationService {
         return abp.localization.localize(key, sourceName);
     }
     
-    getSource(sourceName: string): (key: string) => string {
+    getSource(sourceName: string): (...key: string[]) => string {
         return abp.localization.getSource(sourceName);
     }
 
