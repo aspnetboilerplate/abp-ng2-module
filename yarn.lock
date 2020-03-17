@@ -52,10 +52,10 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abp-web-resources@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.1.1.tgz#3db1324179e3f28566f84f02c43fe9f3776bb81c"
-  integrity sha512-/ueU9++2ZGkjGe/oqdOA2rTEQbCkteZAputaP3Mcr2uvBWTJCvII/R7mgeCAC2x90qpH+WSiIBD6nNpgaSqTZA==
+abp-web-resources@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.2.0.tgz#89c17111c6e70b1ecbfb287dfa960e0593511a77"
+  integrity sha512-C/X1Id/JiAsfatBWMae1M5LDG574lJlRJws4bQ51pf8kH8UfzI3Ks+ZHKgVHaoFdT+x/UojtUPWoZp8/oTHyZQ==
 
 ansi-regex@^2.0.0:
   version "2.1.1"
