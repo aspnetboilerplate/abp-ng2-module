@@ -9,7 +9,24 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
+  "keywords": [
+    "angular",
+    "angular2",
+    "aspnetboilerplate"
+  ],
+  "author": {
+    "name": "Halil İbrahim Kalkan",
+    "email": "hi_kalkan@yahoo.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module"
+  },
+  "bugs": {
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
+  },
   "dependencies": {
     "@angular/animations": "~9.0.7",
     "@angular/common": "~9.0.7",
