@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "0.0.1",
+  "version": "6.0.0",
   "peerDependencies": {
     "@angular/common": "^9.0.7",
     "@angular/core": "^9.0.7",
