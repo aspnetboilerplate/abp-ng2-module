@@ -1,52 +1,50 @@
 {
   "name": "abp-ng2-module",
-  "version": "5.2.0",
-  "description": "AspNet Boilerplate Angular Module",
-  "main": "dist/bundles/abp-ng2-module.umd.js",
-  "module": "dist/index.js",
+  "version": "6.0.0",
   "scripts": {
-    "ngc": "ngc",
-    "cleanup": "rimraf dist/bundles dist/src dist/index.d.ts dist/index.metadata.json dist/index.js dist/index.js.map dist/LICENSE dist/README.md",
-    "bundling": "rollup -c",
-    "minify": "uglifyjs dist/bundles/abp-ng2-module.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/abp-ng2-module.umd.min.js",
-    "copy": "copyfiles LICENSE README.md dist",
-    "build": "npm run cleanup && npm run ngc && npm run bundling && npm run minify && npm run copy",
-    "publish-to-npm": "cd dist && npm publish"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
-  "keywords": [
-    "angular",
-    "angular2",
-    "aspnetboilerplate"
-  ],
-  "author": {
-    "name": "Halil İbrahim Kalkan",
-    "email": "hi_kalkan@yahoo.com"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aspnetboilerplate/abp-ng2-module"
-  },
-  "bugs": {
-    "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
-  },
-  "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "abp-web-resources": "^5.2.0"
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~9.0.7",
+    "@angular/common": "~9.0.7",
+    "@angular/compiler": "~9.0.7",
+    "@angular/core": "~9.0.7",
+    "@angular/forms": "~9.0.7",
+    "@angular/platform-browser": "~9.0.7",
+    "@angular/platform-browser-dynamic": "~9.0.7",
+    "@angular/router": "~9.0.7",
+    "rxjs": "~6.5.4",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2",
+    "abp-web-resources": "5.2.0"
   },
   "devDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/compiler": "^8.0.0",
-    "@angular/compiler-cli": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "abp-web-resources": "^5.2.0",
-    "copyfiles": "^2.1.0",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.68.1",
-    "rxjs": "^6.5.2",
-    "typescript": "3.4.5",
-    "uglify-js": "^3.4.9",
-    "zone.js": "^0.9.1"
+    "@angular-devkit/build-angular": "~0.900.7",
+    "@angular-devkit/build-ng-packagr": "~0.900.7",
+    "@angular/cli": "~9.0.7",
+    "@angular/compiler-cli": "~9.0.7",
+    "@angular/language-service": "~9.0.7",
+    "@types/node": "^12.11.1",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "codelyzer": "^5.1.2",
+    "jasmine-core": "~3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~4.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
+    "karma-jasmine": "~2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "ng-packagr": "^9.0.0",
+    "protractor": "~5.4.3",
+    "ts-node": "~8.3.0",
+    "tslint": "~5.18.0",
+    "typescript": "~3.7.5"
   }
 }

@@ -1,36 +1,32 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
-    "declaration": true,
-    "stripInternal": true,
-    "experimentalDecorators": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "module": "es2015",
-    "moduleResolution": "node",
-    "paths": {
-      "@angular/core": ["node_modules/@angular/core"],
-      "@abp/*": ["src/*"]
-    },
-    "rootDir": ".",
-    "outDir": "dist",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "inlineSources": true,
-    "target": "es5",
-    "skipLibCheck": false,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
     "lib": [
-      "es2015", 
+      "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "abp-ng2-module": [
+        "dist/abp-ng2-module/abp-ng2-module",
+        "dist/abp-ng2-module"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   },
   "include": [
-    "./index.ts"
-  ],
-  "files": [
-      "index.ts",
-      "./node_modules/abp-web-resources/Abp/Framework/scripts/abp.d.ts"
-  ],
-  "angularCompilerOptions": {
-    "strictMetadataEmit": true
-  }
+     "./typings.d.ts"
+  ]
 }

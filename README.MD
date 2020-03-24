@@ -1,47 +1,27 @@
-# Important
+# AbpNg2Module9
 
-Issues of this repository are tracked on https://github.com/aspnetboilerplate/aspnetboilerplate. Please create your issues on https://github.com/aspnetboilerplate/aspnetboilerplate/issues.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
-# abp-ng2-module
+## Development server
 
-## Installation
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-To install this library, run:
+## Code scaffolding
 
-```bash
-$ npm install abp-ng2-module --save
-```
-## Development
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-To generate all `*.js`, `*.js.map` and `*.d.ts` files:
+## Build
 
-```bash
-$ npm run build
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## AbpHttpInterceptor
+## Running unit tests
 
-In order to use AbpHttpInterceptor in your module, first import it and AbpModule into your module like below;
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-```ts
-import { AbpModule } from '@abp/abp.module';
-import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-```
+## Running end-to-end tests
 
-then, add it to your module providers like below;
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-```ts
-imports: [
-    ///other imports
-    AbpModule
-],
-providers: [
-    ///other providers
-    { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
-]
-```
+## Further help
 
-## License
-
-MIT
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
