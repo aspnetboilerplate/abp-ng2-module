@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+	"publish": "ng buld abp-ng2-module --prod && cd dist && cd abp-ng2-module && npm publish"
   },
   "private": false,
   "keywords": [
