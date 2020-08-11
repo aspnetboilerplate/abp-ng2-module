@@ -1,22 +1,20 @@
 ﻿///<reference path="../../../../../../node_modules/abp-web-resources/Abp/Framework/scripts/abp.d.ts"/>
 
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class UtilsService {
+  getCookieValue(key: string): string {
+    return abp.utils.getCookieValue(key);
+  }
 
-    getCookieValue(key: string): string {
-        return abp.utils.getCookieValue(key);
-    }
+  setCookieValue(key: string, value: string, expireDate?: Date, path?: string, domain?: string, attributes?: any): void {
+    abp.utils.setCookieValue(key, value, expireDate, path, domain, attributes);
+  }
 
-    setCookieValue(key: string, value: string, expireDate?: Date, path?: string): void {
-        abp.utils.setCookieValue(key, value, expireDate, path);
-    }
-
-    deleteCookie(key: string, path?: string): void {
-        abp.utils.deleteCookie(key, path);
-    }
-
+  deleteCookie(key: string, path?: string): void {
+    abp.utils.deleteCookie(key, path);
+  }
 }
