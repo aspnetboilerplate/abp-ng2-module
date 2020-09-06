@@ -5,7 +5,7 @@ import { TokenService } from '../services/auth/token.service';
 import { UtilsService } from '../services/utils/utils.service';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { switchMap, filter, take, catchError, tap, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { throwError } from 'rxjs';
 import { AbpHttpConfigurationService } from './abp-http-configuration.service'
 import { RefreshTokenService } from './refresh-token.service'
 declare const abp: any;
