@@ -1,6 +1,22 @@
 {
   "name": "abp-ng2-module",
   "version": "6.3.0",
+  "keywords": [
+    "angular",
+    "aspnetboilerplate"
+  ],
+  "author": {
+    "name": "Halil İbrahim Kalkan",
+    "email": "hi_kalkan@yahoo.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module"
+  },
+  "bugs": {
+    "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^11.0.4",
     "@angular/core": "^11.0.4",
