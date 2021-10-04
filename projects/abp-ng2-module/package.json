@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "6.3.0",
+  "version": "6.4.0",
   "keywords": [
     "angular",
     "aspnetboilerplate"
@@ -18,8 +18,10 @@
     "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^11.0.4",
-    "@angular/core": "^11.0.4",
+    "@angular/common": "^12.2.8",
+    "@angular/core": "^12.2.8"
+  },
+  "dependencies": {
     "tslib": "^2.0.3"
   }
 }
