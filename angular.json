@@ -28,18 +28,6 @@
             "tsConfig": "projects/abp-ng2-module/tsconfig.spec.json",
             "karmaConfig": "projects/abp-ng2-module/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/abp-ng2-module/tsconfig.lib.json",
-              "projects/abp-ng2-module/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }},
