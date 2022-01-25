@@ -23,7 +23,7 @@ export class MessageService {
         return abp.message.error(message, title, options);
     }
 
-    confirm(message: string, title?: string, callback?: (result: boolean) => void, options?: any): any {
+    confirm(message: string, title?: string, callback?: (result: boolean, info?: any) => void, options?: any): any {
         return abp.message.confirm(message, title, callback, options);
     }
 
