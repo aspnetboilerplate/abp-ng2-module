@@ -2036,10 +2036,10 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-abp-web-resources@5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.4.0.tgz#ea09f1702da52269b63020257dcfc8fe726c2b61"
-  integrity sha512-wzxvd3kQWmzIzkPhhhlWu4EVrLfvd9BQGlqLGfc1mBh3flKuzUFGGffwhq4iUAUC4DyPZudqOmtL98jpq1GQZQ==
+abp-web-resources@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.5.0.tgz#c35fe49c7a88dff3e4cea4f2de3e163a4695ff76"
+  integrity sha512-9R6qnqQkhJbuAS3isNw2Wn9W3KiYJXbmMaXv7f4uBCfeC5zNnbwFv25a2Qk4VMFfRprPbqmw/GvlbnEVweOHNQ==
 
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
@@ -5602,12 +5602,7 @@ nanocolors@^0.2.12, nanocolors@^0.2.2, nanocolors@^0.2.8:
   resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.2.12.tgz#4d05932e70116078673ea4cc6699a1c56cc77777"
   integrity sha512-SFNdALvzW+rVlzqexid6epYdt8H9Zol7xDoQarioEFcFN0JHo4CYNztAxmtfgGTVRCmFlEOqqhBpoFGKqSAMug==
 
-nanoid@^3.1.25:
-  version "3.1.28"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.28.tgz#3c01bac14cb6c5680569014cc65a2f26424c6bd4"
-  integrity sha512-gSu9VZ2HtmoKYe/lmyPFES5nknFrHa+/DT9muUFWFMi6Jh9E1I7bkvlQ8xxf1Kos9pi9o8lBnIOkatMhKX/YUw==
-
-nanoid@^3.1.30:
+nanoid@^3.1.25, nanoid@^3.1.30:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
   integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
