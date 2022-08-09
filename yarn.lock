@@ -2036,10 +2036,10 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-abp-web-resources@5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.4.0.tgz#ea09f1702da52269b63020257dcfc8fe726c2b61"
-  integrity sha512-wzxvd3kQWmzIzkPhhhlWu4EVrLfvd9BQGlqLGfc1mBh3flKuzUFGGffwhq4iUAUC4DyPZudqOmtL98jpq1GQZQ==
+abp-web-resources@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/abp-web-resources/-/abp-web-resources-5.5.0.tgz#c35fe49c7a88dff3e4cea4f2de3e163a4695ff76"
+  integrity sha512-9R6qnqQkhJbuAS3isNw2Wn9W3KiYJXbmMaXv7f4uBCfeC5zNnbwFv25a2Qk4VMFfRprPbqmw/GvlbnEVweOHNQ==
 
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
