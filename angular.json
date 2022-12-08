@@ -31,5 +31,8 @@
         }
       }
     }},
-  "defaultProject": "abp-ng2-module"
+  "defaultProject": "abp-ng2-module",
+  "cli": {
+    "analytics": false
+  }
 }
