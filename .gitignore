@@ -9,6 +9,7 @@
 
 # dependencies
 /node_modules
+/projects/abp-ng2-module/node_modules
 
 # profiling files
 chrome-profiler-events*.json
