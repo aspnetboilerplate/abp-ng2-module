@@ -1,6 +1,6 @@
 {
   "name": "abp-ng2-module",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,13 +8,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish": "ng buld abp-ng2-module --prod && cd dist && cd abp-ng2-module && npm publish"
+    "publish": "ng build abp-ng2-module --configuration production && cd dist && cd abp-ng2-module && npm publish"
   },
   "private": false,
   "keywords": [
     "angular",
-    "angular13",
-    "angular 13",
+    "angular16",
+    "angular 16",
     "aspnetboilerplate"
   ],
   "author": {
@@ -41,7 +41,7 @@
     "rxjs": "~7.8.1",
     "tslib": "^2.5.3",
     "zone.js": "~0.13.1",
-    "abp-web-resources": "5.7.0"
+    "abp-web-resources": "5.9.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~16.1.0",
