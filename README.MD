@@ -16,7 +16,7 @@ $ npm install abp-ng2-module --save
 To generate all `*.js`, `*.js.map` and `*.d.ts` files:
 
 ```bash
-$ ng build abp-ng2-module --prod
+$ ng build abp-ng2-module --configuration=production
 ```
 
 ## AbpHttpInterceptor
