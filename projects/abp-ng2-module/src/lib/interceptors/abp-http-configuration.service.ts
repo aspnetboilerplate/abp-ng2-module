@@ -15,6 +15,8 @@ export class AbpHttpConfigurationService {
         private _logService: LogService) {
     }
 
+    forceHeaderCookieWrite = true;
+
     defaultError = <IErrorInfo>{
         message: 'An error has occurred!',
         details: 'Error details were not sent by server.'
