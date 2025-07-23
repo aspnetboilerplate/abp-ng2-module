@@ -106,8 +106,8 @@ export class AbpHttpInterceptor implements HttpInterceptor {
 
     protected addAspNetCoreCultureHeader(headers: HttpHeaders): HttpHeaders {
         let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
-        if (cookieLangValue && headers && (!headers.has('.AspNetCore.Culture') || this.configuration.forceHeaderCookieWrite)) {
-            headers = headers.set('.AspNetCore.Culture', cookieLangValue);
+        if (cookieLangValue && headers && (!headers.has(this.configuration.localizationCultureHeaderName) || this.configuration.forceHeaderCookieWrite)) {
+            headers = headers.set(this.configuration.localizationCultureHeaderName, cookieLangValue);
         }
 
         return headers;

@@ -15,7 +15,8 @@ export class AbpHttpConfigurationService {
         private _logService: LogService) {
     }
 
-    forceHeaderCookieWrite = true;
+    public forceHeaderCookieWrite: boolean = true;
+    public localizationCultureHeaderName: string = '.AspNetCore.Culture';
 
     defaultError = <IErrorInfo>{
         message: 'An error has occurred!',
