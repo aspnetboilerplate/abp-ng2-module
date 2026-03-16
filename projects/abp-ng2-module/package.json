@@ -18,8 +18,8 @@
     "url": "https://github.com/aspnetboilerplate/abp-ng2-module/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^20.1.7",
-    "@angular/core": "^20.1.7"
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0"
   },
   "dependencies": {
     "tslib": "^2.8.1"

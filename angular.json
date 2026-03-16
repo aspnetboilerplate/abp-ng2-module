@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/abp-ng2-module/tsconfig.lib.json",
             "project": "projects/abp-ng2-module/ng-package.json"
@@ -31,5 +31,8 @@
         }
       }
     }},
-  "defaultProject": "abp-ng2-module"
+  "defaultProject": "abp-ng2-module",
+  "cli": {
+    "analytics": false
+  }
 }
