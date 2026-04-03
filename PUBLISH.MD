@@ -2,4 +2,4 @@
 
 1. Go to root directory and run `ng build abp-ng2-module --configuration production`
 2. Go to `dist\abp-ng2-module` folder
-3. Run `npm publish`
+3. Run `npm publish --//registry.npmjs.org/:_authToken=YOUR_NPM_TOKEN`
